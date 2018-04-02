@@ -1,3 +1,0 @@
-/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Release/CMakeFiles/edit_cache.dir
-/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Release/CMakeFiles/rebuild_cache.dir
-/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Release/CMakeFiles/sudoku.dir

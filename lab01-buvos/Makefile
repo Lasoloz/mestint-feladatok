@@ -21,9 +21,5 @@ buvos-dbg.o: buvos.cpp
 	$(CPP) -std=c++11 -c buvos.cpp -o buvos-dbg.o -g $(CPPFLAGS)
 
 
-antall: antall.cpp
-	$(CPP) -std=c++11 antall.cpp -o antall -O3 $(CPPFLAGS)
-
-
 clean:
 	rm -f buvos-dbg.o buvos-dbg buvos-opt buvos-opt.o
