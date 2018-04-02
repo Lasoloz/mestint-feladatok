@@ -1,0 +1,3 @@
+/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Debug/CMakeFiles/edit_cache.dir
+/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Debug/CMakeFiles/rebuild_cache.dir
+/home/heimlaszlo/Projektek/UniProjekt/sem04/mestint/lab02-sudoku/Debug/CMakeFiles/sudoku.dir

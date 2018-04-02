@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -Wall -Wpedantic   CMakeFiles/sudoku.dir/sudoku.cpp.o CMakeFiles/sudoku.dir/sudoku4.cpp.o CMakeFiles/sudoku.dir/generate.cpp.o CMakeFiles/sudoku.dir/sudoku9.cpp.o CMakeFiles/sudoku.dir/sudoku9_util.cpp.o CMakeFiles/sudoku.dir/globals.cpp.o  -o sudoku -rdynamic 
