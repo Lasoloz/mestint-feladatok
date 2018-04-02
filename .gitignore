@@ -1,0 +1,7 @@
+# Ignore object files:
+**/*.o
+lab01-buvos/buvos-opt
+lab01-buvos/buvos-dbg
+
+**/Release/
+**/Debug/
