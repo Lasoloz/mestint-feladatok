@@ -5,3 +5,7 @@ lab01-buvos/buvos-dbg
 
 **/Release/
 **/Debug/
+
+
+# Ignore target:
+**/target/
