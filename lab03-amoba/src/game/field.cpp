@@ -190,6 +190,9 @@ int Field::evaluate() const
 }
 
 
+bool Field::isLeaf() const { return _winner != Field::Player::EMPTY; }
+
+
 
 // Now comes the ugly part... (And no, I won't reformat this, it should be
 // fast and unreadable :)))

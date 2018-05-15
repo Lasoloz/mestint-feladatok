@@ -18,6 +18,8 @@ class MinMaxTreeNode
     inline bool valCompare(const int, const int);
     inline bool valCompare(const int);
 
+    inline bool calcNextLevel();
+
 public:
     MinMaxTreeNode(T &&val, const int depth = 0);
 
@@ -26,7 +28,7 @@ public:
     int    validate(const size_t maxDepth, const int leftBranchVal);
     int    validate_full(const size_t maxDepth);
 
-    void calcNextLevel();
+    // void calcNextLevel();
 
     void printTree(std::ostream &os, const size_t startDepth,
                    const bool printField = false);
@@ -73,7 +75,7 @@ MinMaxTreeNode<T>::MinMaxTreeNode(T &&val, const int depth)
 template <typename T>
 size_t MinMaxTreeNode<T>::validate_start(const size_t maxDepth)
 {
-    if (_children.size() == 0) {
+    if (_node_val.isLeaf() || (_children.size() == 0 && !calcNextLevel())) {
         _value = _node_val.evaluate();
         return 0;
     }
@@ -100,9 +102,14 @@ size_t MinMaxTreeNode<T>::validate_start(const size_t maxDepth)
 template <typename T>
 int MinMaxTreeNode<T>::validate(const size_t maxDepth)
 {
-    if (_depth == maxDepth || _children.size() == 0) {
+    if (_depth == maxDepth || _node_val.isLeaf()) {
         _value = _node_val.evaluate();
     } else {
+        if (_children.size() == 0 && !calcNextLevel()) {
+            _value = _node_val.evaluate();
+            return _value;
+        }
+
         auto iter = _children.begin();
         _value    = iter->validate(maxDepth);
 
@@ -120,9 +127,14 @@ int MinMaxTreeNode<T>::validate(const size_t maxDepth)
 template <typename T>
 int MinMaxTreeNode<T>::validate(const size_t maxDepth, const int beta)
 {
-    if (_depth == maxDepth || _children.size() == 0) {
+    if (_depth == maxDepth || _node_val.isLeaf()) {
         _value = _node_val.evaluate();
     } else {
+        if (_children.size() == 0 && !calcNextLevel()) {
+            _value = _node_val.evaluate();
+            return _value;
+        }
+
         auto iter = _children.begin();
         _value    = iter->validate(maxDepth);
 
@@ -151,15 +163,18 @@ int MinMaxTreeNode<T>::validate(const size_t maxDepth, const int beta)
 template <typename T>
 int MinMaxTreeNode<T>::validate_full(const size_t maxDepth)
 {
-    if (_depth == maxDepth || _children.size() == 0) {
+    if (_depth == maxDepth || _node_val.isLeaf()) {
         _value = _node_val.evaluate();
     } else {
-        _value    = 0;
+        if (_children.size() == 0 && !calcNextLevel()) {
+            _value = _node_val.evaluate();
+            return _value;
+        }
+
         auto iter = _children.begin();
         _value    = iter->validate_full(maxDepth);
-        // iter->validate_full(maxDepth);
 
-        while (++iter < _children.end()) {
+        while (++iter > _children.end()) {
             int val = iter->validate_full(maxDepth);
 
             if (valCompare(val)) {
@@ -174,19 +189,22 @@ int MinMaxTreeNode<T>::validate_full(const size_t maxDepth)
 
 
 template <typename T>
-void MinMaxTreeNode<T>::calcNextLevel()
+bool MinMaxTreeNode<T>::calcNextLevel()
 {
-    if (_children.size() == 0) {
-        auto children = _node_val.getNewLevel();
-
-        for (auto &child : children) {
-            _children.push_back(MinMaxTreeNode(std::move(child), _depth + 1));
-        }
-    } else {
-        for (auto &child : _children) {
-            child.calcNextLevel();
-        }
+    if (_node_val.isLeaf()) {
+        return false;
     }
+
+    auto children = _node_val.getNewLevel();
+    if (children.size() == 0) {
+        return false;
+    }
+
+    for (auto &child : children) {
+        _children.push_back(MinMaxTreeNode(std::move(child), _depth + 1));
+    }
+
+    return true;
 }
 
 
@@ -223,7 +241,6 @@ template <typename T>
 void MinMaxTreeNode<T>::cutTowardChild(const size_t childIndex)
 {
     if (_children.size() <= childIndex) {
-        std::cout << "Shit just happened: " << childIndex << '\n';
         return;
     }
 

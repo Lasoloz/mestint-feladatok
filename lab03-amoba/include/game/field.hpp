@@ -84,8 +84,16 @@ public:
 
     inline void printIt(std::ostream &os) const;
 
+    // Winning state:
+    Player getWinner() const;
+    bool   full() const;
+
+
+    // MinMaxHelpers:
     // Evaluate field:
     int evaluate() const;
+
+    bool isLeaf() const;
 
     // Get new level:
     std::vector<Field> getNewLevel();
@@ -95,11 +103,7 @@ public:
     FieldBuilderIterator end();
 
 
-    // Winning state:
-    Player getWinner() const;
-    bool   full() const;
-
-
+    // Find selected node:
     size_t findSelected(const size_t x, const size_t y) const;
 };
 

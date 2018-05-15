@@ -12,4 +12,11 @@ add_executable(
     amoba
     src/amoba.cpp
     src/game/field.cpp
+    src/game/local.cpp
+    src/game/netPlay.cpp
+    src/tcp/TcpException.cpp
+    src/tcp/TcpSocket.cpp
+    src/tcp/TcpListener.cpp
 )
+
+target_link_libraries(amoba pthread)
