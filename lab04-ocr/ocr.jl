@@ -40,20 +40,24 @@ end
 
 if length(ARGS) == 2
     open("results", "w") do f
-        write(f, "(calculated, expected)\n")
-        badCount = 0
-        allCount = 0
+        # write(f, "(calculated, expected)\n")
+        badCounts = zeros(10)
+        allCounts = zeros(10)
 
-        writer = function (result)
-            allCount += 1
+        counter = function (result)
+            allCounts[result[2] + 1] += 1
             if (result[1] != result[2])
-                badCount += 1
+                badCounts[result[1] + 1] += 1
             end
-            write(f, "$(result[1]), $(result[2])\n")
+            # write(f, "$(result[1]), $(result[2])\n")
         end
 
-        map(writer, solveKNN(ARGS...))
-        write(f, "$(badCount / allCount * 100)% error\n")
+        map(counter, solveKNN(ARGS...))
+        for i = 1:10
+            write(f, "Error percentage for number ",
+                "$(i - 1): $(badCounts[i] / allCounts[i] * 100)%\n")
+        end
+        # write(f, "$(badCount / allCount * 100)% error\n")
     end
 else
     println("Please provide the filenames of the training dataset and the ",
