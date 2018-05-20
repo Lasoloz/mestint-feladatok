@@ -1,6 +1,5 @@
 include("./ocrTools.jl")
 
-using OcrTools
 using CSV
 using DataFrames
 
@@ -22,19 +21,39 @@ end
 
 function solveKNN(kernel, trainingName, testName)
     kNNCheck = OcrTools.makeKNNCheck(kernel)
-    trainingSet = readTrainingSet(trainingName)
 
+    trainingSet = readTrainingSet(trainingName)
     testSet = readTestSet(testName)
 
-    calclatedAndExpected = []
+    calculatedAndExpected = []
 
     for i = 1:size(testSet)[1]
         row = convert(Array{Int16}, testSet[i, :])[1, :]
-        push!(calclatedAndExpected, kNNCheck(15, trainingSet, row))
+        push!(calculatedAndExpected, kNNCheck(15, trainingSet, row))
     end
 
-    calclatedAndExpected
+    calculatedAndExpected
 end
+
+
+function solveCentroid(kernel, trainingName, testName)
+    centroidCheck = OcrTools.makeCentroidCheck(kernel)
+
+    trainingSet = readTrainingSet(trainingName)
+    testSet = readTestSet(testName)
+
+    averages = OcrTools.centroidCalculateAverages(trainingSet)
+
+    calculatedAndExpected = []
+
+    for i = 1:size(testSet)[1]
+        row = convert(Array{Int16}, testSet[i, :])[1, :]
+        push!(calculatedAndExpected, centroidCheck(averages, row))
+    end
+
+    calculatedAndExpected
+end
+
 
 
 
@@ -43,6 +62,14 @@ function main(args)
         println("Please provide the filenames of the training dataset and the ",
             "test dataset!")
     else
+        if (args[1] == "1")
+            algo = solveKNN
+            println("Using KNN algorithm...")
+        else
+            algo = solveCentroid
+            println("Using Centroid algorithm...")
+        end
+
         if (args[2] == "1")
             kernel = OcrTools.linearKernel
             println("Using linear kernel...")
@@ -65,7 +92,7 @@ function main(args)
             end
         end
 
-        map(counter, solveKNN(kernel, args[3], args[4]))
+        map(counter, algo(kernel, args[3], args[4]))
         for i = 1:10
             println("Error percentage for number ",
                 "$(i - 1): $(badCounts[i] / allCounts[i] * 100)%")

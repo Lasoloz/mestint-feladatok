@@ -126,4 +126,40 @@ function makeKNNCheck(kernel)
     end
 end
 
+
+function centroidCalculateAverages(trainingSet)
+    datacount = size(trainingSet)[1]
+    rowlen = size(trainingSet[1])[1] - 1
+
+    averages = Array{Real,1}[]
+    counts = zeros(10)
+
+    for i = 1:10
+        push!(averages, zeros(rowlen))
+    end
+
+    for i = 1:datacount
+        label = trainingSet[i][end] + 1
+        averages[label] = averages[label] + trainingSet[i][1:end - 1]
+        counts[label] += 1
+    end
+
+    for i = 1:10
+        averages[i] = averages[i] ./ counts[i]
+    end
+
+    averages
+end
+
+
+function makeCentroidCheck(kernel)
+    distFunc = makeDistk2(kernel)
+
+    function centroidCheck(averages, testPoint)
+        dists = map(elem -> distFunc(elem, testPoint[1:end - 1]), averages)
+
+        indmin(dists) - 1, testPoint[end]
+    end
+end
+
 end
