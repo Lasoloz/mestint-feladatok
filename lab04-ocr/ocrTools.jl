@@ -110,11 +110,11 @@ dist2 = makeDistk2(linearKernel)
 Create a function implementing the KNN algorithm
 """
 function makeKNNCheck(kernel)
-    dist2 = makeDistk2(kernel)
+    distFunc = makeDistk2(kernel)
 
     function kNNCheck(k, trainingSet, testPoint)
         labelFreqs = Dict()
-        dists = map(elem -> dist2(elem[1:end - 1], testPoint[1:end - 1]),
+        dists = map(elem -> distFunc(elem[1:end - 1], testPoint[1:end - 1]),
             trainingSet)
         for i = sortperm(dists)[1:k]
             label = trainingSet[i][end]

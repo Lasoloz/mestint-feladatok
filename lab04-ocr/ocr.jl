@@ -20,8 +20,8 @@ function readTestSet(testName)
 end
 
 
-function solveKNN(trainingName, testName)
-    kNNCheck = OcrTools.makeKNNCheck(OcrTools.linearKernel)
+function solveKNN(kernel, trainingName, testName)
+    kNNCheck = OcrTools.makeKNNCheck(kernel)
     trainingSet = readTrainingSet(trainingName)
 
     testSet = readTestSet(testName)
@@ -38,28 +38,40 @@ end
 
 
 
-if length(ARGS) == 2
-    open("results", "w") do f
-        # write(f, "(calculated, expected)\n")
+function main(args)
+    if length(args) != 4
+        println("Please provide the filenames of the training dataset and the ",
+            "test dataset!")
+    else
+        if (args[2] == "1")
+            kernel = OcrTools.linearKernel
+            println("Using linear kernel...")
+        elseif (args[2] == "2")
+            kernel = OcrTools.makePolyKernel(3, -1, 2)
+            println("Using polynomial kernel...")
+        else
+            kernel = OcrTools.makeGaussKernel(100)
+            println("Using Gauss kernel...")
+        end
+
         badCounts = zeros(10)
         allCounts = zeros(10)
 
-        counter = function (result)
-            allCounts[result[2] + 1] += 1
-            if (result[1] != result[2])
-                badCounts[result[1] + 1] += 1
+        function counter(result)
+            calculated, expected = result
+            allCounts[expected + 1] += 1
+            if (calculated != expected)
+                badCounts[expected + 1] += 1
             end
-            # write(f, "$(result[1]), $(result[2])\n")
         end
 
-        map(counter, solveKNN(ARGS...))
+        map(counter, solveKNN(kernel, args[3], args[4]))
         for i = 1:10
-            write(f, "Error percentage for number ",
-                "$(i - 1): $(badCounts[i] / allCounts[i] * 100)%\n")
+            println("Error percentage for number ",
+                "$(i - 1): $(badCounts[i] / allCounts[i] * 100)%")
         end
-        # write(f, "$(badCount / allCount * 100)% error\n")
     end
-else
-    println("Please provide the filenames of the training dataset and the ",
-        "test dataset!")
 end
+
+
+main(ARGS)
