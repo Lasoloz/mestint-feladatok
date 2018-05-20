@@ -122,6 +122,15 @@ int Field::evaluate() const
         }
     }
 
+    for (size_t xx = 0; xx < size; ++xx) {
+        for (size_t yy = 0; yy < size; ++yy) {
+            for (size_t i = 0; i < 4; ++i) {
+                oRowCount[xx][yy][i] = 0;
+                xRowCount[xx][yy][i] = 0;
+            }
+        }
+    }
+
     for (size_t xx = size; xx > 0; --xx) {
         const size_t x = xx - 1;
         for (size_t yy = size; yy > 0; --yy) {
