@@ -1,12 +1,12 @@
-Using Centroid algorithm...
-Using linear kernel...
-Error percentage for number 0: 1.6853932584269662%
-Error percentage for number 1: 25.274725274725274%
-Error percentage for number 2: 11.299435028248588%
-Error percentage for number 3: 11.475409836065573%
-Error percentage for number 4: 8.83977900552486%
-Error percentage for number 5: 6.043956043956044%
-Error percentage for number 6: 3.314917127071823%
-Error percentage for number 7: 5.027932960893855%
-Error percentage for number 8: 20.689655172413794%
-Error percentage for number 9: 12.777777777777777%
+Using KNN algorithm...
+Using Gauss kernel...
+Error percentage for number 0: 0.0%
+Error percentage for number 1: 0.5494505494505495%
+Error percentage for number 2: 2.824858757062147%
+Error percentage for number 3: 3.825136612021858%
+Error percentage for number 4: 1.1049723756906076%
+Error percentage for number 5: 2.197802197802198%
+Error percentage for number 6: 0.5524861878453038%
+Error percentage for number 7: 2.793296089385475%
+Error percentage for number 8: 8.620689655172415%
+Error percentage for number 9: 4.444444444444445%
